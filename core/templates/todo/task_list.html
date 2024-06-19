@@ -1,0 +1,55 @@
+<!-- task_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <style>
+        .done {
+            text-decoration: line-through;
+        }
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .button-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Todo App</h1>
+
+    <h2>Your Tasks</h2>
+    <ul>
+        {% for task in tasks %}
+            <li class="{% if task.is_done %}done{% endif %}">
+                <span>{{ task.title }}</span>
+                <span style="margin-left: 10px; color: #888;">{{ task.created }}</span>
+                <a href="{% url 'update-task' task.id %}" class="button-link">Edit</a>
+                <a href="{% url 'delete-task' task.id %}" class="button-link">Delete</a>
+                {% if not task.is_done %}
+                    <form action="{% url 'mark-done' task.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="button-link">Mark as Done</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'add-task' %}" class="button-link">Add New Task</a>
+    <a href="{% url 'logout' %}" class="button-link">Logout</a>
+
+</body>
+</html>
