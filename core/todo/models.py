@@ -12,3 +12,6 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+    
+    # def get_absolute_api_url(self):
+    #     return reverse("todo:api-v1:")
